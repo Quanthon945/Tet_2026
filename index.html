@@ -2,134 +2,123 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chúc Mừng Năm Mới 2026</title>
     <style>
-        /* --- CÀI ĐẶT CHUNG --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-
+        /* --- CÀI ĐẶT CƠ BẢN --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            /* Thay link ảnh nền của bạn vào dòng url(...) bên dưới */
-            background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1920&auto=format&fit=crop'); 
-            background-size: cover; /* Ảnh phủ kín màn hình */
-            background-position: center; /* Luôn lấy trung tâm ảnh */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Thay link ảnh nền của bạn ở đây */
+            background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1920&auto=format&fit=crop');
+            background-size: cover; /* Ảnh phủ kín */
+            background-position: center; /* Luôn lấy giữa ảnh */
             background-repeat: no-repeat;
-            background-attachment: fixed; /* Cố định ảnh khi cuộn */
-            height: 100vh;
+            background-attachment: fixed; /* Cố định trên PC */
+            min-height: 100vh; /* Chiều cao tối thiểu bằng màn hình */
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            color: #fff;
+            overflow: hidden; /* Ẩn thanh cuộn thừa */
+            position: relative;
         }
 
-        /* Lớp phủ màu đen mờ để chữ dễ đọc hơn trên nền sáng */
+        /* Lớp phủ đen mờ để chữ nổi bật trên mọi nền */
         .overlay {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4); 
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Tăng độ tối lên 50% cho dễ đọc */
             z-index: 1;
         }
 
-        /* --- KHUNG CHỨA LỜI CHÚC (CARD) --- */
+        canvas { position: absolute; top: 0; left: 0; z-index: 2; pointer-events: none; }
+
+        /* --- KHUNG CHỨA NỘI DUNG --- */
         .card {
             position: relative;
-            z-index: 10; /* Nổi lên trên lớp phủ */
-            background: rgba(255, 255, 255, 0.1); /* Hiệu ứng kính mờ */
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 40px;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.15); /* Màu kính trong suốt */
+            backdrop-filter: blur(8px); /* Làm mờ hậu cảnh sau khung */
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 20px;
+            padding: 40px;
             text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            max-width: 600px; /* Độ rộng tối đa trên máy tính */
-            width: 90%;
-            animation: fadeIn 2s ease-in-out;
+            color: #fff;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            animation: floatUp 1.5s ease-out;
+            margin: 20px; /* Cách lề một chút */
         }
 
-        /* Hiệu ứng chữ */
+        /* Tiêu đề */
         .card h1 {
-            font-size: 3em; /* Chữ to trên máy tính */
-            margin-bottom: 20px;
-            color: #ffeb3b; /* Màu vàng kim */
-            text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9800;
+            font-size: 3.5rem; /* Cỡ chữ PC */
+            margin-bottom: 15px;
+            color: #FFD700; /* Vàng kim */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
         }
 
+        /* Lời chúc */
         .card p {
-            font-size: 1.2em; /* Chữ thường trên máy tính */
+            font-size: 1.2rem;
             line-height: 1.6;
-            margin-bottom: 20px;
-            color: #ffffff;
+            margin-bottom: 25px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
         }
 
+        /* Nút bấm */
         .btn {
             display: inline-block;
-            padding: 10px 25px;
-            background: #ff4757;
-            color: white;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #ff357a, #fff172);
+            color: #fff;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 50px;
             font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+            font-size: 1rem;
+            box-shadow: 0 5px 15px rgba(255, 53, 122, 0.4);
+            transition: transform 0.2s;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
+        .btn:active { transform: scale(0.95); }
 
-        .btn:hover {
-            background: #ff6b81;
-            transform: scale(1.05);
-        }
-
-        /* --- CANVAS PHÁO HOA --- */
-        canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 2; /* Nằm dưới Card nhưng trên nền */
-            pointer-events: none; /* Không chặn click chuột */
-        }
-
-        /* --- HIỆU ỨNG XUẤT HIỆN --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes floatUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* ========================================= */
-        /* --- PHẦN QUAN TRỌNG: CHỈNH CHO MOBILE --- */
-        /* ========================================= */
+        /* ============================================== */
+        /* --- CHẾ ĐỘ RIÊNG CHO ĐIỆN THOẠI (MOBILE) --- */
+        /* ============================================== */
         @media (max-width: 768px) {
             body {
-                background-position: center center; /* Căn giữa ảnh nền */
+                /* Trên đt, bỏ 'fixed' để tránh bị zoom ảnh quá đà */
+                background-attachment: scroll; 
+                background-position: center center;
             }
 
             .card {
-                width: 85%; /* Thu hẹp khung lại chút để không sát mép */
-                padding: 20px; /* Giảm khoảng cách trong */
-                border-radius: 15px;
+                width: 90%; /* Chiếm 90% chiều ngang đt */
+                padding: 25px 15px; /* Thu hẹp khoảng cách trong */
+                margin: 0 auto;
             }
 
             .card h1 {
-                font-size: 1.8em; /* Giảm cỡ chữ tiêu đề */
-                margin-bottom: 15px;
+                font-size: 28px; /* Cố định cỡ chữ tiêu đề nhỏ lại */
+                margin-bottom: 10px;
             }
 
             .card p {
-                font-size: 14px; /* Giảm cỡ chữ nội dung */
-                line-height: 1.4;
+                font-size: 15px; /* Cố định cỡ chữ lời chúc dễ đọc */
+                line-height: 1.5;
+                margin-bottom: 20px;
             }
 
             .btn {
-                padding: 8px 20px;
+                padding: 10px 25px;
                 font-size: 14px;
             }
         }
@@ -138,95 +127,64 @@
 <body>
 
     <div class="overlay"></div>
-
     <canvas id="fireworks"></canvas>
 
     <div class="card">
-        <h1>Happy New Year</h1>
+        <h1>HAPPY<br>NEW YEAR</h1>
         <p>
-            Chúc bạn và gia đình một năm mới An Khang Thịnh Vượng, Vạn Sự Như Ý.<br>
-            Cảm ơn vì đã luôn đồng hành cùng nhau trong suốt năm qua!
+            Chúc bạn một năm mới rực rỡ như pháo hoa, bền bỉ như đá tảng và tiền vào như nước!<br>
+            <b>2026 - An Khang Thịnh Vượng</b>
         </p>
-        <a href="#" class="btn" onclick="playMusic()">Nhận Lì Xì 🧧</a>
+        <a href="#" class="btn" onclick="playMusic()">🧧 Nhận Lì Xì Ngay</a>
     </div>
 
     <script>
+        /* Script hiệu ứng pháo hoa gọn nhẹ */
         const canvas = document.getElementById('fireworks');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        let w, h, particles = [];
 
-        let particles = [];
-
-        function Particle(x, y, color) {
-            this.x = x;
-            this.y = y;
-            this.color = color;
-            this.velocity = {
-                x: (Math.random() - 0.5) * 8,
-                y: (Math.random() - 0.5) * 8
-            };
-            this.alpha = 1;
-            this.friction = 0.95; // Lực cản
+        function resize() {
+            w = canvas.width = window.innerWidth;
+            h = canvas.height = window.innerHeight;
         }
+        window.addEventListener('resize', resize);
+        resize();
 
-        Particle.prototype.draw = function() {
-            ctx.save();
-            ctx.globalAlpha = this.alpha;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
-            ctx.fillStyle = this.color;
-            ctx.fill();
-            ctx.restore();
-        };
-
-        Particle.prototype.update = function() {
-            this.velocity.x *= this.friction;
-            this.velocity.y *= this.friction;
-            this.x += this.velocity.x;
-            this.y += this.velocity.y;
-            this.alpha -= 0.01;
-        };
-
-        function createFirework(x, y) {
-            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            for (let i = 0; i < 30; i++) {
-                particles.push(new Particle(x, y, color));
+        function createParticle(x, y) {
+            const hue = Math.random() * 360;
+            for (let i = 0; i < 25; i++) {
+                particles.push({
+                    x: x, y: y,
+                    vx: (Math.random() - 0.5) * 6,
+                    vy: (Math.random() - 0.5) * 6,
+                    alpha: 1,
+                    color: `hsl(${hue}, 100%, 50%)`
+                });
             }
         }
 
-        function animate() {
-            requestAnimationFrame(animate);
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Tạo hiệu ứng đuôi mờ
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        function loop() {
+            requestAnimationFrame(loop);
+            ctx.fillStyle = 'rgba(0,0,0,0.1)';
+            ctx.fillRect(0, 0, w, h);
 
-            particles.forEach((particle, index) => {
-                if (particle.alpha > 0) {
-                    particle.update();
-                    particle.draw();
-                } else {
-                    particles.splice(index, 1);
-                }
+            particles.forEach((p, i) => {
+                p.x += p.vx; p.y += p.vy; p.alpha -= 0.02;
+                ctx.globalAlpha = p.alpha;
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+                if (p.alpha <= 0) particles.splice(i, 1);
             });
 
-            // Tự động bắn pháo hoa ngẫu nhiên
-            if (Math.random() < 0.05) {
-                createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
-            }
+            if (Math.random() < 0.03) createParticle(Math.random() * w, Math.random() * h / 2);
         }
+        loop();
 
-        // Tự động resize khi xoay màn hình
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        animate();
-
-        // Hàm giả lập chơi nhạc (bạn có thể thêm file mp3 vào đây)
         function playMusic() {
-            alert("Chúc mừng năm mới! (Nhạc sẽ phát tại đây)");
+            alert("Ting ting! 🧧 Lì xì đã được chuyển bằng... niềm tin! Chúc mừng năm mới!");
         }
     </script>
 </body>
