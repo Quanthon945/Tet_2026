@@ -1,352 +1,233 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Happy New Year 2026</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chúc Mừng Năm Mới 2026</title>
+    <style>
+        /* --- CÀI ĐẶT CHUNG --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
+        body {
+            /* Thay link ảnh nền của bạn vào dòng url(...) bên dưới */
+            background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1920&auto=format&fit=crop'); 
+            background-size: cover; /* Ảnh phủ kín màn hình */
+            background-position: center; /* Luôn lấy trung tâm ảnh */
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Cố định ảnh khi cuộn */
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            color: #fff;
+        }
 
-<style>
-/* =========================
-   THIẾT LẬP CƠ BẢN
-========================= */
-:root {
-    /* Nền khung cực mỏng, gần như trong suốt */
-    --glass-bg: rgba(0, 0, 0, 0.15); 
-    --glass-border: rgba(255,255,255,0.1);
-}
+        /* Lớp phủ màu đen mờ để chữ dễ đọc hơn trên nền sáng */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            z-index: 1;
+        }
 
-* { box-sizing: border-box; }
+        /* --- KHUNG CHỨA LỜI CHÚC (CARD) --- */
+        .card {
+            position: relative;
+            z-index: 10; /* Nổi lên trên lớp phủ */
+            background: rgba(255, 255, 255, 0.1); /* Hiệu ứng kính mờ */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            max-width: 600px; /* Độ rộng tối đa trên máy tính */
+            width: 90%;
+            animation: fadeIn 2s ease-in-out;
+        }
 
-body {
-    margin: 0;
-    height: 100vh;
-    overflow: hidden;
-    font-family: 'Quicksand', sans-serif;
-    background: url("nen.jpg") center center/cover no-repeat; 
-}
+        /* Hiệu ứng chữ */
+        .card h1 {
+            font-size: 3em; /* Chữ to trên máy tính */
+            margin-bottom: 20px;
+            color: #ffeb3b; /* Màu vàng kim */
+            text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9800;
+        }
 
-/* Lớp phủ tối nhẹ để chữ nổi bật hơn trên ảnh nền */
-.bg-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.25); 
-    z-index: 0;
-}
+        .card p {
+            font-size: 1.2em; /* Chữ thường trên máy tính */
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #ffffff;
+        }
 
-/* =========================
-   MÀN HÌNH CHỜ
-========================= */
-#start-screen {
-    position: fixed;
-    inset: 0;
-    background: #000;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    transition: opacity 1s ease-out;
-}
+        .btn {
+            display: inline-block;
+            padding: 10px 25px;
+            background: #ff4757;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
 
-#start-btn {
-    padding: 15px 50px;
-    font-size: 1.8rem;
-    border-radius: 50px;
-    border: 2px solid #fff;
-    background: linear-gradient(45deg, #ff0055, #ff9900);
-    color: #fff;
-    font-family: 'Dancing Script', cursive;
-    cursor: pointer;
-    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
-    animation: pulse 1.5s infinite;
-}
-@keyframes pulse { 50% { transform: scale(1.05); } }
+        .btn:hover {
+            background: #ff6b81;
+            transform: scale(1.05);
+        }
 
-/* =========================
-   CANVAS PHÁO HOA
-========================= */
-canvas {
-    position: fixed;
-    inset: 0;
-    z-index: 1; 
-    pointer-events: none;
-}
+        /* --- CANVAS PHÁO HOA --- */
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Nằm dưới Card nhưng trên nền */
+            pointer-events: none; /* Không chặn click chuột */
+        }
 
-/* =========================
-   THẺ LỜI CHÚC (TỰ ĐỘNG CUỘN)
-========================= */
-.card-container {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center; /* Căn giữa màn hình */
-    z-index: 10;
-    padding: 10px;
-}
+        /* --- HIỆU ỨNG XUẤT HIỆN --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-.card {
-    position: relative;
-    width: 95%; 
-    max-width: 480px;
-    max-height: 80vh; /* Không cao quá 80% màn hình */
-    overflow-y: auto; /* Cho phép cuộn nếu dài quá */
-    
-    padding: 20px 15px;
-    
-    /* Hiệu ứng kính siêu mỏng */
-    background: var(--glass-bg);
-    backdrop-filter: blur(4px); 
-    -webkit-backdrop-filter: blur(4px);
-    border: 1px solid var(--glass-border);
-    border-radius: 20px;
-    
-    text-align: center;
-    
-    /* Ẩn thanh cuộn nhưng vẫn cuộn được */
-    scrollbar-width: none; 
-    -ms-overflow-style: none;
-    
-    opacity: 0;
-    transform: scale(0.9);
-    transition: all 1s ease;
-}
-.card::-webkit-scrollbar { display: none; }
+        /* ========================================= */
+        /* --- PHẦN QUAN TRỌNG: CHỈNH CHO MOBILE --- */
+        /* ========================================= */
+        @media (max-width: 768px) {
+            body {
+                background-position: center center; /* Căn giữa ảnh nền */
+            }
 
-.card.show {
-    opacity: 1;
-    transform: scale(1);
-}
+            .card {
+                width: 85%; /* Thu hẹp khung lại chút để không sát mép */
+                padding: 20px; /* Giảm khoảng cách trong */
+                border-radius: 15px;
+            }
 
-/* TIÊU ĐỀ NĂM MỚI */
-h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.5rem; 
-    margin: 0 0 10px 0;
-    line-height: 1.1;
-    color: #fff;
-    /* Hiệu ứng chữ vàng kim loại sáng bóng */
-    text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9900;
-}
+            .card h1 {
+                font-size: 1.8em; /* Giảm cỡ chữ tiêu đề */
+                margin-bottom: 15px;
+            }
 
-/* KHUNG CHỨA CÁC CÂU CHÚC */
-#message-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px; /* Khoảng cách giữa các câu chúc */
-    padding-bottom: 20px;
-}
+            .card p {
+                font-size: 14px; /* Giảm cỡ chữ nội dung */
+                line-height: 1.4;
+            }
 
-/* TỪNG CÂU CHÚC */
-.msg-item {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #fff;
-    line-height: 1.5;
-    /* Viền đen và bóng sáng để chữ nổi bần bật trên mọi nền */
-    text-shadow: 2px 2px 0px #000, 0 0 15px rgba(255, 0, 85, 0.8);
-    
-    opacity: 0;
-    transform: translateY(20px);
-    animation: slideIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-}
-
-@keyframes slideIn {
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Highlight cho câu cuối cùng */
-.msg-item.final {
-    font-size: 1.8rem;
-    color: #ffeb3b;
-    font-family: 'Dancing Script', cursive;
-    margin-top: 10px;
-    text-shadow: 0 0 20px #ffeb3b;
-}
-
-</style>
+            .btn {
+                padding: 8px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="bg-overlay"></div>
+    <div class="overlay"></div>
 
-<div id="start-screen">
-    <button id="start-btn">✨ Khai Xuân ✨</button>
-</div>
+    <canvas id="fireworks"></canvas>
 
-<canvas id="fireworks"></canvas>
-<audio id="music" loop><source src="nhac.mp3" type="audio/mpeg"></audio>
-
-<div class="card-container">
-    <div class="card" id="card">
-        <h1>Happy New Year<br>2026</h1>
-        <div id="message-list">
-            </div>
+    <div class="card">
+        <h1>Happy New Year</h1>
+        <p>
+            Chúc bạn và gia đình một năm mới An Khang Thịnh Vượng, Vạn Sự Như Ý.<br>
+            Cảm ơn vì đã luôn đồng hành cùng nhau trong suốt năm qua!
+        </p>
+        <a href="#" class="btn" onclick="playMusic()">Nhận Lì Xì 🧧</a>
     </div>
-</div>
 
-<script>
-/* =========================
-   DỮ LIỆU LỜI CHÚC (VIẾT TIẾP)
-========================= */
-const messages = [
-    "🎆 Chúc mừng năm mới Xuân Bính Ngọ 2026!",
-    "Chúc bạn và gia đình một năm mới:<br>An khang thịnh vượng - Vạn sự như ý.",
-    "Sức khỏe dồi dào, bệnh tật tiêu tan.",
-    "Công việc thăng tiến, tiền tài dư dả.",
-    "Tình duyên phơi phới, hạnh phúc ngập tràn.",
-    "Mọi dự định đều thành công rực rỡ!",
-    "🥂 CHÚC MỪNG NĂM MỚI! 🥂" // Câu cuối
-];
+    <script>
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-/* =========================
-   XỬ LÝ HIỂN THỊ LẦN LƯỢT
-========================= */
-let msgIndex = 0;
-const listEl = document.getElementById("message-list");
-const cardEl = document.getElementById("card");
+        let particles = [];
 
-function startMessages() {
-    // Hiện câu đầu tiên ngay lập tức
-    addMessage();
-
-    // Cài đặt giờ chạy các câu tiếp theo (3.5 giây/câu)
-    const interval = setInterval(() => {
-        addMessage();
-        if (msgIndex >= messages.length) {
-            clearInterval(interval);
+        function Particle(x, y, color) {
+            this.x = x;
+            this.y = y;
+            this.color = color;
+            this.velocity = {
+                x: (Math.random() - 0.5) * 8,
+                y: (Math.random() - 0.5) * 8
+            };
+            this.alpha = 1;
+            this.friction = 0.95; // Lực cản
         }
-    }, 3500); 
-}
 
-function addMessage() {
-    if (msgIndex >= messages.length) return;
-
-    // Tạo phần tử mới
-    const p = document.createElement("div");
-    p.innerHTML = messages[msgIndex];
-    p.className = "msg-item";
-    
-    // Nếu là câu cuối cùng thì thêm style đặc biệt
-    if (msgIndex === messages.length - 1) {
-        p.classList.add("final");
-    }
-
-    // Thêm vào danh sách
-    listEl.appendChild(p);
-    
-    // Tự động cuộn xuống dưới cùng mượt mà
-    cardEl.scrollTo({
-        top: cardEl.scrollHeight,
-        behavior: 'smooth'
-    });
-
-    msgIndex++;
-}
-
-/* =========================
-   START BUTTON
-========================= */
-document.getElementById("start-btn").onclick = () => {
-    document.getElementById("start-screen").style.opacity = 0;
-    setTimeout(() => document.getElementById("start-screen").remove(), 1000);
-    
-    document.getElementById("card").classList.add("show");
-    
-    // Bắt đầu chạy chữ
-    startMessages();
-    
-    // Bắt đầu nhạc
-    const m = document.getElementById("music");
-    m.volume = 0;
-    m.play().catch(()=>{});
-    let v = 0;
-    const f = setInterval(()=>{ if(v<1){v+=0.05; m.volume=v;} else clearInterval(f); }, 200);
-};
-
-/* =========================
-   PHÁO HOA (GIỮ NGUYÊN BACKGROUND)
-========================= */
-const canvas = document.getElementById("fireworks");
-const ctx = canvas.getContext("2d");
-let w, h;
-
-function resize() {
-    w = canvas.width = window.innerWidth;
-    h = canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resize);
-resize();
-
-class Firework {
-    constructor() { this.reset(); }
-    reset() {
-        this.x = Math.random() * w;
-        this.y = h;
-        this.tx = Math.random() * w; 
-        this.ty = Math.random() * (h * 0.5); 
-        this.vx = (this.tx - this.x) * 0.02;
-        this.vy = (this.ty - this.y) * 0.02;
-        this.age = 0;
-        this.exploded = false;
-        this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
-        this.particles = [];
-    }
-    update() {
-        if (!this.exploded) {
-            this.x += this.vx;
-            this.y += this.vy;
-            this.age++;
+        Particle.prototype.draw = function() {
+            ctx.save();
+            ctx.globalAlpha = this.alpha;
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
             ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, 4, 4);
-            if (this.age > 50 || this.y <= this.ty) this.explode();
-        } else {
-            for (let i = this.particles.length - 1; i >= 0; i--) {
-                const p = this.particles[i];
-                p.x += p.vx;
-                p.y += p.vy;
-                p.vy += 0.08; 
-                p.alpha -= 0.012; 
-                if (p.alpha <= 0) this.particles.splice(i, 1);
-                else {
-                    ctx.globalAlpha = p.alpha;
-                    ctx.fillStyle = this.color;
-                    ctx.fillRect(p.x, p.y, 3, 3);
-                }
+            ctx.fill();
+            ctx.restore();
+        };
+
+        Particle.prototype.update = function() {
+            this.velocity.x *= this.friction;
+            this.velocity.y *= this.friction;
+            this.x += this.velocity.x;
+            this.y += this.velocity.y;
+            this.alpha -= 0.01;
+        };
+
+        function createFirework(x, y) {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            for (let i = 0; i < 30; i++) {
+                particles.push(new Particle(x, y, color));
             }
-            ctx.globalAlpha = 1;
-            if (this.particles.length === 0) this.reset();
         }
-    }
-    explode() {
-        this.exploded = true;
-        for (let i = 0; i < 150; i++) {
-            const angle = (Math.PI * 2 * i) / 150;
-            const speed = Math.random() * 6 + 2; 
-            this.particles.push({
-                x: this.x, y: this.y,
-                vx: Math.cos(angle) * speed,
-                vy: Math.sin(angle) * speed,
-                alpha: 1
+
+        function animate() {
+            requestAnimationFrame(animate);
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // Tạo hiệu ứng đuôi mờ
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                if (particle.alpha > 0) {
+                    particle.update();
+                    particle.draw();
+                } else {
+                    particles.splice(index, 1);
+                }
             });
+
+            // Tự động bắn pháo hoa ngẫu nhiên
+            if (Math.random() < 0.05) {
+                createFirework(Math.random() * canvas.width, Math.random() * canvas.height);
+            }
         }
-    }
-}
 
-const fireworks = Array.from({ length: 12 }, () => new Firework());
+        // Tự động resize khi xoay màn hình
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
 
-function loop() {
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
-    ctx.fillRect(0, 0, w, h);
-    ctx.globalCompositeOperation = 'source-over';
-    fireworks.forEach(fw => fw.update());
-    requestAnimationFrame(loop);
-}
-loop();
-</script>
+        animate();
+
+        // Hàm giả lập chơi nhạc (bạn có thể thêm file mp3 vào đây)
+        function playMusic() {
+            alert("Chúc mừng năm mới! (Nhạc sẽ phát tại đây)");
+        }
+    </script>
 </body>
 </html>
