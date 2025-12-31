@@ -1,191 +1,371 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chúc Mừng Năm Mới 2026</title>
-    <style>
-        /* --- CÀI ĐẶT CƠ BẢN --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            /* Thay link ảnh nền của bạn ở đây */
-            background-image: url('https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1920&auto=format&fit=crop');
-            background-size: cover; /* Ảnh phủ kín */
-            background-position: center; /* Luôn lấy giữa ảnh */
-            background-repeat: no-repeat;
-            background-attachment: fixed; /* Cố định trên PC */
-            min-height: 100vh; /* Chiều cao tối thiểu bằng màn hình */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden; /* Ẩn thanh cuộn thừa */
-            position: relative;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Happy New Year 2026</title>
 
-        /* Lớp phủ đen mờ để chữ nổi bật trên mọi nền */
-        .overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* Tăng độ tối lên 50% cho dễ đọc */
-            z-index: 1;
-        }
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@600;700&display=swap" rel="stylesheet">
 
-        canvas { position: absolute; top: 0; left: 0; z-index: 2; pointer-events: none; }
+<style>
+/* =========================
+   THIẾT LẬP CƠ BẢN
+========================= */
+:root {
+    --glass-bg: rgba(0, 0, 0, 0.25); /* Tối hơn chút để dễ đọc trên đt */
+    --glass-border: rgba(255,255,255,0.15);
+}
 
-        /* --- KHUNG CHỨA NỘI DUNG --- */
-        .card {
-            position: relative;
-            z-index: 10;
-            background: rgba(255, 255, 255, 0.15); /* Màu kính trong suốt */
-            backdrop-filter: blur(8px); /* Làm mờ hậu cảnh sau khung */
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
-            padding: 40px;
-            text-align: center;
-            color: #fff;
-            width: 100%;
-            max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            animation: floatUp 1.5s ease-out;
-            margin: 20px; /* Cách lề một chút */
-        }
+* { box-sizing: border-box; }
 
-        /* Tiêu đề */
-        .card h1 {
-            font-size: 3.5rem; /* Cỡ chữ PC */
-            margin-bottom: 15px;
-            color: #FFD700; /* Vàng kim */
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
-            line-height: 1.2;
-        }
+body {
+    margin: 0;
+    height: 100vh; /* Sử dụng dvh nếu trình duyệt hỗ trợ để tránh thanh địa chỉ che mất */
+    height: 100dvh; 
+    overflow: hidden;
+    font-family: 'Quicksand', sans-serif;
+    
+    /* BACKGROUND ĐIỆN THOẠI */
+    /* Mình để link ảnh online cho đẹp, bạn có thể đổi lại 'nen.jpg' nếu muốn */
+    background: url("https://images.unsplash.com/photo-1467810563316-b5476525c0f9?q=80&w=1000&auto=format&fit=crop") center center/cover no-repeat;
+    background-attachment: fixed; /* Cố định nền trên mobile */
+    background-color: #000; /* Màu nền dự phòng */
+}
 
-        /* Lời chúc */
-        .card p {
-            font-size: 1.2rem;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
+.bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4); /* Tăng độ tối lớp phủ để chữ rõ hơn */
+    z-index: 0;
+}
 
-        /* Nút bấm */
-        .btn {
-            display: inline-block;
-            padding: 12px 30px;
-            background: linear-gradient(45deg, #ff357a, #fff172);
-            color: #fff;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 1rem;
-            box-shadow: 0 5px 15px rgba(255, 53, 122, 0.4);
-            transition: transform 0.2s;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-        }
-        .btn:active { transform: scale(0.95); }
+/* =========================
+   MÀN HÌNH CHỜ
+========================= */
+#start-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease-out;
+}
 
-        @keyframes floatUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+#start-btn {
+    padding: 12px 40px;
+    font-size: 1.5rem; /* Giảm nhẹ size nút cho đt */
+    border-radius: 50px;
+    border: 2px solid #fff;
+    background: linear-gradient(45deg, #ff0055, #ff9900);
+    color: #fff;
+    font-family: 'Dancing Script', cursive;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(255, 0, 85, 0.6);
+    animation: pulse 1.5s infinite;
+    -webkit-tap-highlight-color: transparent; /* Bỏ highlight xanh khi chạm trên mobile */
+}
+@keyframes pulse { 50% { transform: scale(1.05); } }
 
-        /* ============================================== */
-        /* --- CHẾ ĐỘ RIÊNG CHO ĐIỆN THOẠI (MOBILE) --- */
-        /* ============================================== */
-        @media (max-width: 768px) {
-            body {
-                /* Trên đt, bỏ 'fixed' để tránh bị zoom ảnh quá đà */
-                background-attachment: scroll; 
-                background-position: center center;
-            }
+/* =========================
+   CANVAS & CARD
+========================= */
+canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 1; 
+    pointer-events: none;
+}
 
-            .card {
-                width: 90%; /* Chiếm 90% chiều ngang đt */
-                padding: 25px 15px; /* Thu hẹp khoảng cách trong */
-                margin: 0 auto;
-            }
+.card-container {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    padding: 10px;
+}
 
-            .card h1 {
-                font-size: 28px; /* Cố định cỡ chữ tiêu đề nhỏ lại */
-                margin-bottom: 10px;
-            }
+.card {
+    position: relative;
+    width: 90%; /* Rộng hơn chút trên mobile */
+    max-width: 450px;
+    max-height: 75vh; /* Giới hạn chiều cao an toàn */
+    overflow-y: auto;
+    
+    padding: 25px 15px;
+    
+    background: var(--glass-bg);
+    backdrop-filter: blur(8px); /* Tăng độ mờ kính */
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    
+    text-align: center;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 1s ease;
+}
+.card::-webkit-scrollbar { display: none; }
 
-            .card p {
-                font-size: 15px; /* Cố định cỡ chữ lời chúc dễ đọc */
-                line-height: 1.5;
-                margin-bottom: 20px;
-            }
+.card.show {
+    opacity: 1;
+    transform: scale(1);
+}
 
-            .btn {
-                padding: 10px 25px;
-                font-size: 14px;
-            }
-        }
-    </style>
+/* TIÊU ĐỀ */
+h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3rem; 
+    margin: 0 0 15px 0;
+    line-height: 1.1;
+    color: #fff;
+    text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ff9900;
+}
+
+#message-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 20px;
+}
+
+/* LỜI CHÚC */
+.msg-item {
+    font-size: 1.2rem; /* Cỡ chữ mặc định */
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.4;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8), 0 0 10px rgba(255, 0, 85, 0.5);
+    
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 1s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes slideIn {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.msg-item.final {
+    font-size: 1.6rem;
+    color: #ffeb3b;
+    font-family: 'Dancing Script', cursive;
+    margin-top: 15px;
+    text-shadow: 0 0 15px #ffeb3b;
+}
+
+/* =========================
+   MOBILE RESPONSIVE (QUAN TRỌNG)
+========================= */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 2.4rem; /* Giảm size tiêu đề trên đt */
+    }
+    .msg-item {
+        font-size: 1.05rem; /* Chữ lời chúc nhỏ lại cho vừa khung */
+    }
+    .msg-item.final {
+        font-size: 1.4rem;
+    }
+    .card {
+        padding: 20px 10px; /* Giảm padding viền */
+        width: 95%; /* Chiếm gần hết chiều ngang đt */
+    }
+    #start-btn {
+        font-size: 1.4rem;
+        padding: 10px 30px;
+    }
+}
+</style>
 </head>
+
 <body>
 
-    <div class="overlay"></div>
-    <canvas id="fireworks"></canvas>
+<div class="bg-overlay"></div>
 
-    <div class="card">
-        <h1>HAPPY<br>NEW YEAR</h1>
-        <p>
-            Chúc bạn một năm mới rực rỡ như pháo hoa, bền bỉ như đá tảng và tiền vào như nước!<br>
-            <b>2026 - An Khang Thịnh Vượng</b>
-        </p>
-        <a href="#" class="btn" onclick="playMusic()">🧧 Nhận Lì Xì Ngay</a>
+<div id="start-screen">
+    <button id="start-btn">✨ Khai Xuân ✨</button>
+</div>
+
+<canvas id="fireworks"></canvas>
+<audio id="music" loop><source src="nhac.mp3" type="audio/mpeg"></audio>
+
+<div class="card-container">
+    <div class="card" id="card">
+        <h1>Happy New Year<br>2026</h1>
+        <div id="message-list">
+            </div>
     </div>
+</div>
 
-    <script>
-        /* Script hiệu ứng pháo hoa gọn nhẹ */
-        const canvas = document.getElementById('fireworks');
-        const ctx = canvas.getContext('2d');
-        let w, h, particles = [];
+<script>
+/* =========================
+   DỮ LIỆU LỜI CHÚC
+========================= */
+const messages = [
+    "🎆 Chúc mừng năm mới Xuân Bính Ngọ 2026!",
+    "Chúc bạn và gia đình một năm mới:<br>An khang thịnh vượng - Vạn sự như ý.",
+    "Sức khỏe dồi dào, bệnh tật tiêu tan.",
+    "Công việc thăng tiến, tiền tài dư dả.",
+    "Tình duyên phơi phới, hạnh phúc ngập tràn.",
+    "Mọi dự định đều thành công rực rỡ!",
+    "🥂 CHÚC MỪNG NĂM MỚI! 🥂"
+];
 
-        function resize() {
-            w = canvas.width = window.innerWidth;
-            h = canvas.height = window.innerHeight;
+let msgIndex = 0;
+const listEl = document.getElementById("message-list");
+const cardEl = document.getElementById("card");
+
+function startMessages() {
+    addMessage();
+    const interval = setInterval(() => {
+        addMessage();
+        if (msgIndex >= messages.length) {
+            clearInterval(interval);
         }
-        window.addEventListener('resize', resize);
-        resize();
+    }, 3500); 
+}
 
-        function createParticle(x, y) {
-            const hue = Math.random() * 360;
-            for (let i = 0; i < 25; i++) {
-                particles.push({
-                    x: x, y: y,
-                    vx: (Math.random() - 0.5) * 6,
-                    vy: (Math.random() - 0.5) * 6,
-                    alpha: 1,
-                    color: `hsl(${hue}, 100%, 50%)`
-                });
+function addMessage() {
+    if (msgIndex >= messages.length) return;
+    const p = document.createElement("div");
+    p.innerHTML = messages[msgIndex];
+    p.className = "msg-item";
+    if (msgIndex === messages.length - 1) {
+        p.classList.add("final");
+    }
+    listEl.appendChild(p);
+    
+    // Cuộn mượt mà
+    setTimeout(() => {
+        cardEl.scrollTo({
+            top: cardEl.scrollHeight,
+            behavior: 'smooth'
+        });
+    }, 100);
+
+    msgIndex++;
+}
+
+/* =========================
+   XỬ LÝ NÚT BẤM & NHẠC
+========================= */
+document.getElementById("start-btn").onclick = () => {
+    const startScreen = document.getElementById("start-screen");
+    startScreen.style.opacity = 0;
+    setTimeout(() => startScreen.remove(), 1000);
+    
+    document.getElementById("card").classList.add("show");
+    startMessages();
+    
+    // Xử lý nhạc (Fade in)
+    const m = document.getElementById("music");
+    m.volume = 0;
+    // Cần tương tác người dùng để phát nhạc trên mobile
+    m.play().then(() => {
+        let v = 0;
+        const f = setInterval(()=>{ 
+            if(v < 1){ v += 0.05; m.volume = v; } 
+            else clearInterval(f); 
+        }, 200);
+    }).catch((e) => {
+        console.log("Trình duyệt chặn tự phát nhạc: ", e);
+    });
+};
+
+/* =========================
+   PHÁO HOA (Hiệu chỉnh cho mobile)
+========================= */
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+let w, h;
+
+function resize() {
+    // Sử dụng kích thước inner để chuẩn với mobile
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+class Firework {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * w;
+        this.y = h;
+        this.tx = Math.random() * w; 
+        this.ty = Math.random() * (h * 0.4); // Pháo nổ cao hơn chút (0.4 thay vì 0.5)
+        this.vx = (this.tx - this.x) * 0.015; // Tốc độ bay chậm lại chút cho mượt
+        this.vy = (this.ty - this.y) * 0.015;
+        this.age = 0;
+        this.exploded = false;
+        this.color = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        this.particles = [];
+    }
+    update() {
+        if (!this.exploded) {
+            this.x += this.vx;
+            this.y += this.vy;
+            this.age++;
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, 3, 3); // Hạt pháo bay lên nhỏ lại
+            if (this.age > 70 || this.y <= this.ty) this.explode();
+        } else {
+            for (let i = this.particles.length - 1; i >= 0; i--) {
+                const p = this.particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+                p.vy += 0.06; 
+                p.alpha -= 0.015; 
+                if (p.alpha <= 0) this.particles.splice(i, 1);
+                else {
+                    ctx.globalAlpha = p.alpha;
+                    ctx.fillStyle = this.color;
+                    ctx.fillRect(p.x, p.y, 2, 2); // Hạt nổ nhỏ lại cho tinh tế trên màn hình nhỏ
+                }
             }
+            ctx.globalAlpha = 1;
+            if (this.particles.length === 0) this.reset();
         }
-
-        function loop() {
-            requestAnimationFrame(loop);
-            ctx.fillStyle = 'rgba(0,0,0,0.1)';
-            ctx.fillRect(0, 0, w, h);
-
-            particles.forEach((p, i) => {
-                p.x += p.vx; p.y += p.vy; p.alpha -= 0.02;
-                ctx.globalAlpha = p.alpha;
-                ctx.fillStyle = p.color;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-                ctx.fill();
-                if (p.alpha <= 0) particles.splice(i, 1);
+    }
+    explode() {
+        this.exploded = true;
+        // Giảm số lượng hạt trên mobile để đỡ lag (150 -> 80)
+        const particleCount = w < 600 ? 80 : 150; 
+        for (let i = 0; i < particleCount; i++) {
+            const angle = (Math.PI * 2 * i) / particleCount;
+            const speed = Math.random() * 4 + 1; // Giảm tốc độ nổ để nhìn rõ hơn
+            this.particles.push({
+                x: this.x, y: this.y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                alpha: 1
             });
-
-            if (Math.random() < 0.03) createParticle(Math.random() * w, Math.random() * h / 2);
         }
-        loop();
+    }
+}
 
-        function playMusic() {
-            alert("Ting ting! 🧧 Lì xì đã được chuyển bằng... niềm tin! Chúc mừng năm mới!");
-        }
-    </script>
+// Giảm số lượng pháo hoa trên mobile để tránh nóng máy
+const maxFireworks = window.innerWidth < 600 ? 8 : 12;
+const fireworks = Array.from({ length: maxFireworks }, () => new Firework());
+
+function loop() {
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)'; // Đuôi pháo dài hơn chút
+    ctx.fillRect(0, 0, w, h);
+    ctx.globalCompositeOperation = 'source-over';
+    fireworks.forEach(fw => fw.update());
+    requestAnimationFrame(loop);
+}
+loop();
+</script>
 </body>
 </html>
